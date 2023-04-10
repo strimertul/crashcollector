@@ -1,4 +1,4 @@
-module crashcollectorgo
+module crashcollector
 
 go 1.20
 
