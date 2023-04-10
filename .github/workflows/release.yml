@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Go environment
+        uses: actions/setup-go@v2.1.4
+        with:
+          go-version: 1.20
+      - name: Build app for all platforms
+        run: |
+          go get github.com/mitchellh/gox
+          gox -arch="amd64 arm" -os "windows linux" ./cmd/stulbe
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            stulbe_*
